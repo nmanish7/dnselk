@@ -1,0 +1,68 @@
+Ref: https://stackoverflow.com/questions/59360364/elasticsearch-mapping-for-tshark
+Ref: https://github.com/H21lab/tsharkVM
+Ref: https://www.kitploit.com/2021/08/tsharkvm-tshark-elk-analytics-virtual.html
+Ref: https://www.h21lab.com/tools/tshark-elasticsearch
+Ref Main : https://discuss.elastic.co/t/error-when-definining-a-mapping-for-pcap-index/213980
+
+# tshark -G elastic-mapping --elastic-mapping-filter ip,udp,dns
+# Converting To Custom Indices using Ruby Code
+# curl -X PUT "localhost:9200/_index_template/packets_template" -H 'Content-Type: application/json' -d@custom_tshark_mapping_deduplicated.json\n
+# Capturing Pcap: 
+# tshark -i wlan0 -w capture-output.pcap 
+# tshark -T ek -j "dns text" -r capture-output.pcap > file.json
+# curl -H "Content-Type: application/x-ndjson" -XPOST http://localhost:9200/_bulk --data-binary @file.json | jq
+
+
+# Reading From .pcap file
+tshark -T ek \
+-e 'ip.src' \
+-e 'tcp.srcport' \
+-e 'udp.srcport' \
+-e 'ip.dst' \
+-e 'tcp.dstport' \
+-e 'udp.dstport' \
+-e 'eth.src' \
+-e 'eth.dst'  \
+-e 'ip.proto' \
+-e 'dns.qry.name' \
+-e 'dns.time' \
+-e 'dns.id' \
+-e 'dns.qry.name.len' \
+-e 'dns.count.labels' \
+-e 'dns.qry.type' \
+-e 'dns.qry.class'  \
+-e 'dns.resp.name' \
+-e 'dns.resp.type' \
+-e 'dns.resp.class' \
+-e 'dns.resp.ttl' \
+-e 'dns.resp.len' \
+-e 'dns.a'  \
+-Y "dns" \
+-r dns_capture.pcap > dns5.json
+
+# Live packet Captures
+tshark -T fields  \
+-e 'ip.src' \
+-e 'tcp.srcport' \
+-e 'udp.srcport' \
+-e 'ip.dst' \
+-e 'tcp.dstport' \
+-e 'udp.dstport' \
+-e 'eth.src' \
+-e 'eth.dst'  \
+-e 'ip.proto' \
+-e 'dns.qry.name' \
+-e 'dns.time' \
+-e 'dns.id' \
+-e 'dns.qry.name.len' \
+-e 'dns.count.labels' \
+-e 'dns.qry.type' \
+-e 'dns.qry.class'  \
+-e 'dns.resp.name' \
+-e 'dns.resp.type' \
+-e 'dns.resp.class' \
+-e 'dns.resp.ttl' \
+-e 'dns.resp.len' \
+-e 'dns.a'  \
+-f "udp port 53 or tcp port 53" \
+-i wlan0

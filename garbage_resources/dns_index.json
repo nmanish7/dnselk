@@ -1,0 +1,36 @@
+{
+  "index_patterns": "packets-*",
+  "template": {
+    "settings": {
+      "index.mapping.total_fields.limit": 1000000,
+      "index.mapping.ignore_malformed": true,
+      "index.mapping.coerce": true
+    },
+    "mappings": {
+      "properties": {
+        "timestamp": { "type": "date" },
+        "dns_a": { "type": "text" },
+        "dns_aaaa": { "type": "text" },
+        "dns_count_labels": { "type": "text" },
+        "dns_id": { "type": "text" },
+        "dns_qry_class": { "type": "text" },
+        "dns_qry_name": { "type": "text" },
+        "dns_qry_name_len": { "type": "text" },
+        "dns_qry_type": { "type": "text" },
+        "dns_resp_class": { "type": "text" },
+        "dns_resp_len": { "type": "text" },
+        "dns_resp_name": { "type": "text" },
+        "dns_resp_ttl": { "type": "text" },
+        "dns_resp_type": { "type": "text" },
+        "dns_time": { "type": "text" },
+        "eth_dst": { "type": "text" },
+        "eth_src": { "type": "text" },
+        "ip_dst": { "type": "text" },
+        "ip_proto": { "type": "text" },
+        "ip_src": { "type": "text" },
+        "udp_dstport": { "type": "text" },
+        "udp_srcport": { "type": "text" }
+      }
+    }
+  }
+}
